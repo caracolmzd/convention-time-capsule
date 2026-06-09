@@ -45,22 +45,19 @@ if $DRY_RUN; then
   exit 0
 fi
 
-if git show-ref --verify --quiet refs/heads/install; then
-  git checkout install
-  git merge --ff-only main
-else
-  git checkout -b install main
-fi
+# Recreate install from main (avoids divergence from harness worktrees)
+git branch -D install 2>/dev/null || true
+git checkout -b install main
 
 apply_overlays
 git add README.md ROADMAP.md manifest/business-requirements.md
-git commit -m "chore(install): publish mka-bootstrap v${VERSION} to install branch" || true
+git commit -m "chore(install): publish mka-bootstrap v${VERSION} to install branch"
 
 "$REPO_ROOT/scripts/validate-governance-structure.sh" --context install
 
 git checkout main
 
-if git remote get-url "$REMOTE" >/dev/null 2>&1; then
+if [[ "$REMOTE" != "__none__" ]] && git remote get-url "$REMOTE" >/dev/null 2>&1; then
   git push "$REMOTE" main install
 fi
 
