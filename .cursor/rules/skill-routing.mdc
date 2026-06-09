@@ -1,0 +1,11 @@
+---
+description: Route agents to canonical skills before acting
+alwaysApply: true
+---
+
+Before editing documentation, read `docs/developer/skills/doc-governance/SKILL.md`.
+Before ROADMAP edits, read `docs/developer/skills/roadmap-maintenance/SKILL.md`.
+Before milestone or release work, read `docs/developer/skills/milestone-lifecycle/SKILL.md`.
+Before install or publish scripts, read `docs/developer/skills/project-bootstrap/SKILL.md`.
+
+Canonical skills live in `docs/developer/skills/`. Platform skill folders are routing stubs only.

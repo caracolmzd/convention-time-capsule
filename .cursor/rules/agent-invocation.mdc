@@ -1,0 +1,11 @@
+---
+description: Agent invocation shorthand (Number One, make it so)
+alwaysApply: true
+---
+
+**Number One** — nickname for the primary coding agent in this repository.
+
+**make it so** (or **make it so, number one**) — execution trigger:
+1. Build the active Governance Template Plan or agreed milestone scope
+2. Work plan todos in order; run harness checks at checkpoints
+3. Do not re-plan unless blocked or the user redirects

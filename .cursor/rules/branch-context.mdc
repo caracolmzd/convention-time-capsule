@@ -1,0 +1,13 @@
+---
+description: Branch-aware behavior for mka-bootstrap maintainers vs consumers
+alwaysApply: true
+---
+
+On branch `main` (mka-bootstrap maintainer context):
+- Follow ROADMAP.md milestones for template product work
+- Never run `./install.sh` except via `scripts/test/run-local-harness.sh`
+- Use `publish-to-install.sh` to update the consumer `install` branch
+
+On branch `install` (consumer context):
+- `./install.sh` is the primary entry point
+- README is the consumer install guide, not the maintainer product README

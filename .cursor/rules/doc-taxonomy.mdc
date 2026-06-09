@@ -1,0 +1,13 @@
+---
+description: Documentation layer placement rules
+alwaysApply: true
+---
+
+Place content by layer:
+- manifest/ — business requirements and acceptance criteria
+- docs/developer/approach/ — workflow and rationale
+- docs/developer/architecture/ — solution-independent strategy
+- docs/user/ — complete end-user documentation
+- docs/admin/ — operations; link to user docs, do not duplicate
+
+Epics belong in manifest/Deep-Backlog.md, not ROADMAP ## slots.
