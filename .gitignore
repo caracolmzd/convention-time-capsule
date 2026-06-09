@@ -1,6 +1,22 @@
 .local-test/
-.env
+site/config.json
+
+# Env variants
+.env*
+!.env.example
+
+# Maintainer logs
+*.log
+drive.setup.log
+
+# Broader credential naming
+config/*.json
 config/google.json
+!config/google.example.json
 *-service-account.json
 config/*secret*
-site/config.json
+**/credentials.json
+**/sa.json
+
+# Optional: gws local artifacts if ever created in-repo
+.encryption_key
