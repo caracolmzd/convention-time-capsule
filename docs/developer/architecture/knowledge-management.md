@@ -26,6 +26,7 @@ flowchart TB
 | Manifest | `manifest/` | BRs, personas, glossary, roadmap processes, Deep Backlog |
 | Approach | `docs/developer/approach/` | Workflow bridges; milestone lifecycle |
 | Architecture | `docs/developer/architecture/` | Solution-independent strategy, taxonomy, standards |
+| Time Capsule architecture | [time-capsule.md](time-capsule.md), [visual-style.md](visual-style.md) | System design and UI tokens for this solution |
 | Developer working | `docs/developer/` top-level specs | In-progress specs; promote when stable |
 | User | `docs/user/` | Complete end-user documentation; may be published/syndicated |
 | Admin | `docs/admin/` | Operations; defer to user docs for shared topics |
