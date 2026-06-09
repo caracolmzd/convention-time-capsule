@@ -49,10 +49,8 @@ run_publish() {
   "$REPO_ROOT/scripts/test/setup-bare-remotes.sh" "${KEEP_FLAG[@]}"
   cd "$REPO_ROOT"
   git checkout main
-  mkdir -p "$LOCAL_TEST/logs"
-  echo "harness publish test $(date +%s)" >> "$LOCAL_TEST/logs/publish-marker.txt"
-  git add "$LOCAL_TEST/logs/publish-marker.txt"
-  git commit -m "test: harness publish marker" || true
+  git commit --allow-empty -m "test: harness publish marker" || true
+  git push "$BOOTSTRAP_BARE" main --force
   git push "$BOOTSTRAP_BARE" main --force
 
   WORKTREE="$LOCAL_TEST/publish-worktree"
