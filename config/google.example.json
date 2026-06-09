@@ -1,0 +1,8 @@
+{
+  "clientId": "YOUR_OAUTH_CLIENT_ID.apps.googleusercontent.com",
+  "projectId": "convention-staff-time-capsule",
+  "spreadsheetId": "YOUR_SPREADSHEET_ID",
+  "driveFolderId": "YOUR_DRIVE_FOLDER_ID",
+  "conventionId": "30th",
+  "schemaVersion": "1"
+}
