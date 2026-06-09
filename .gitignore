@@ -1,1 +1,6 @@
 .local-test/
+.env
+config/google.json
+*-service-account.json
+config/*secret*
+site/config.json
