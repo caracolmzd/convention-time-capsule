@@ -18,43 +18,28 @@ fi
 
 mkdir -p "$LOCAL_TEST/bare-remotes" "$LOCAL_TEST/logs"
 
-if [[ ! -d "$LOCAL_TEST/bare-remotes/mka-bootstrap.git" ]]; then
-  git init --bare "$LOCAL_TEST/bare-remotes/mka-bootstrap.git"
-fi
-if [[ ! -d "$LOCAL_TEST/bare-remotes/solution.git" ]]; then
-  git init --bare "$LOCAL_TEST/bare-remotes/solution.git"
-fi
+git init --bare "$LOCAL_TEST/bare-remotes/mka-bootstrap.git" 2>/dev/null || true
+git init --bare "$LOCAL_TEST/bare-remotes/solution.git" 2>/dev/null || true
 
 BOOTSTRAP_BARE="file://$LOCAL_TEST/bare-remotes/mka-bootstrap.git"
 
-# Ensure main has at least one commit
 cd "$REPO_ROOT"
-if ! git rev-parse HEAD >/dev/null 2>&1; then
-  git add -A
-  git commit -m "chore: initial mka-bootstrap governance scaffold"
-fi
+git checkout main
 
 git push "$BOOTSTRAP_BARE" main --force
 
-# Publish install branch to bare remote (local only, no origin push)
-"$REPO_ROOT/scripts/publish-to-install.sh" --remote __none__ 2>/dev/null || true
+# Build install branch in a temp worktree to avoid disturbing maintainer checkout
+WORKTREE="$LOCAL_TEST/install-worktree"
+rm -rf "$WORKTREE"
+git worktree add -B install "$WORKTREE" main
+cp docs/developer/references/templates/install-README.md "$WORKTREE/README.md"
+cp docs/developer/references/templates/solution-ROADMAP.md.stub "$WORKTREE/ROADMAP.md"
+cp docs/developer/references/templates/solution-business-requirements.md.stub "$WORKTREE/manifest/business-requirements.md"
+git -C "$WORKTREE" add README.md ROADMAP.md manifest/business-requirements.md
+git -C "$WORKTREE" commit -m "chore(install): seed install branch for harness" || true
+git push "$BOOTSTRAP_BARE" install --force
+git worktree remove "$WORKTREE" --force 2>/dev/null || rm -rf "$WORKTREE"
 
-# publish with --remote __none__ won't push - we need local install branch then push to bare
-if git show-ref --verify --quiet refs/heads/install; then
-  git push "$BOOTSTRAP_BARE" install --force
-else
-  "$REPO_ROOT/scripts/publish-to-install.sh" --remote __none__ || {
-    git checkout -b install main 2>/dev/null || git checkout install
-    cp docs/developer/references/templates/install-README.md README.md
-    cp docs/developer/references/templates/solution-ROADMAP.md.stub ROADMAP.md
-    cp docs/developer/references/templates/solution-business-requirements.md.stub manifest/business-requirements.md
-    git add README.md ROADMAP.md manifest/business-requirements.md
-    git commit -m "chore(install): seed install branch for harness" || true
-    git checkout main
-    git push "$BOOTSTRAP_BARE" install --force
-  }
-fi
-
-git checkout main 2>/dev/null || true
+git checkout main
 
 echo "Bare remotes ready at $LOCAL_TEST/bare-remotes/"

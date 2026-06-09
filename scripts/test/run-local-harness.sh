@@ -27,6 +27,7 @@ $KEEP && KEEP_FLAG=(--keep)
 
 run_validate() {
   cd "$REPO_ROOT"
+  git checkout main 2>/dev/null || true
   "$REPO_ROOT/scripts/sync-skill-stubs.sh" --check
   "$REPO_ROOT/scripts/validate-governance-structure.sh" --context main
 }
@@ -40,10 +41,7 @@ run_bootstrap() {
     --solution-url "$SOLUTION_BARE" \
     --project-name "Harness Solution" \
     --description "Disposable test project"
-  CLONE_DIR="$LOCAL_TEST/solution-clone"
-  rm -rf "$CLONE_DIR"
-  git clone "$SOLUTION_BARE" "$CLONE_DIR" -b main
-  "$REPO_ROOT/scripts/test/assert-solution-repo.sh" "$CLONE_DIR"
+  "$REPO_ROOT/scripts/test/assert-solution-repo.sh" "$LOCAL_TEST/install-clone"
   cd "$REPO_ROOT"
 }
 
@@ -51,24 +49,23 @@ run_publish() {
   "$REPO_ROOT/scripts/test/setup-bare-remotes.sh" "${KEEP_FLAG[@]}"
   cd "$REPO_ROOT"
   git checkout main
-  echo "# harness publish test" >> "$LOCAL_TEST/logs/publish-marker.txt" 2>/dev/null || mkdir -p "$LOCAL_TEST/logs" && echo ok > "$LOCAL_TEST/logs/publish-marker.txt"
-  git add "$LOCAL_TEST/logs/publish-marker.txt" 2>/dev/null || true
-  git commit -m "test: harness publish marker" --allow-empty
+  mkdir -p "$LOCAL_TEST/logs"
+  echo "harness publish test $(date +%s)" >> "$LOCAL_TEST/logs/publish-marker.txt"
+  git add "$LOCAL_TEST/logs/publish-marker.txt"
+  git commit -m "test: harness publish marker" || true
+  git push "$BOOTSTRAP_BARE" main --force
 
-  # publish locally without pushing to origin
-  if git show-ref --verify --quiet refs/heads/install; then
-    git checkout install
-    git merge --ff-only main
-  else
-    git checkout -b install main
-  fi
-  cp docs/developer/references/templates/install-README.md README.md
-  cp docs/developer/references/templates/solution-ROADMAP.md.stub ROADMAP.md
-  cp docs/developer/references/templates/solution-business-requirements.md.stub manifest/business-requirements.md
-  git add README.md ROADMAP.md manifest/business-requirements.md
-  git commit -m "chore(install): harness publish" || true
-  "$REPO_ROOT/scripts/validate-governance-structure.sh" --context install
+  WORKTREE="$LOCAL_TEST/publish-worktree"
+  rm -rf "$WORKTREE"
+  git worktree add -B install "$WORKTREE" main
+  cp docs/developer/references/templates/install-README.md "$WORKTREE/README.md"
+  cp docs/developer/references/templates/solution-ROADMAP.md.stub "$WORKTREE/ROADMAP.md"
+  cp docs/developer/references/templates/solution-business-requirements.md.stub "$WORKTREE/manifest/business-requirements.md"
+  git -C "$WORKTREE" add README.md ROADMAP.md manifest/business-requirements.md
+  git -C "$WORKTREE" commit -m "chore(install): harness publish overlay" || true
+  "$WORKTREE/scripts/validate-governance-structure.sh" --context install
   git push "$BOOTSTRAP_BARE" install --force
+  git worktree remove "$WORKTREE" --force 2>/dev/null || rm -rf "$WORKTREE"
   git checkout main
 
   rm -rf "$LOCAL_TEST/install-clone-verify"
@@ -86,7 +83,7 @@ case "$SCENARIO" in
 esac
 
 if ! $KEEP; then
-  rm -rf "$LOCAL_TEST/install-clone" "$LOCAL_TEST/solution-clone" "$LOCAL_TEST/install-clone-verify"
+  rm -rf "$LOCAL_TEST/install-clone" "$LOCAL_TEST/install-clone-verify" "$LOCAL_TEST/install-worktree" "$LOCAL_TEST/publish-worktree"
 fi
 
 echo "Harness scenario '$SCENARIO' passed"
