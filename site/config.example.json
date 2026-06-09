@@ -1,0 +1,7 @@
+{
+  "clientId": "YOUR_WEB_OAUTH_CLIENT_ID.apps.googleusercontent.com",
+  "spreadsheetId": "YOUR_SPREADSHEET_ID",
+  "driveFolderId": "YOUR_DRIVE_FOLDER_ID",
+  "conventionId": "30th",
+  "schemaVersion": "1"
+}

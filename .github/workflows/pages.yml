@@ -1,0 +1,51 @@
+name: Deploy GitHub Pages
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Write site config
+        env:
+          CLIENT_ID: ${{ vars.GOOGLE_CLIENT_ID }}
+          SPREADSHEET_ID: ${{ vars.GOOGLE_SPREADSHEET_ID }}
+          DRIVE_FOLDER_ID: ${{ vars.GOOGLE_DRIVE_FOLDER_ID }}
+        run: |
+          if [ -z "$CLIENT_ID" ] || [ -z "$SPREADSHEET_ID" ] || [ -z "$DRIVE_FOLDER_ID" ]; then
+            echo "Set repository variables: GOOGLE_CLIENT_ID, GOOGLE_SPREADSHEET_ID, GOOGLE_DRIVE_FOLDER_ID"
+            exit 1
+          fi
+          cat > site/config.json <<EOF
+          {
+            "clientId": "${CLIENT_ID}",
+            "spreadsheetId": "${SPREADSHEET_ID}",
+            "driveFolderId": "${DRIVE_FOLDER_ID}",
+            "conventionId": "30th",
+            "schemaVersion": "1"
+          }
+          EOF
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: site
+
+      - id: deployment
+        uses: actions/deploy-pages@v4

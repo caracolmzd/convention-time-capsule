@@ -6,4 +6,6 @@ For shared end-user topics, prefer links to [docs/user/](../user/) rather than d
 
 ## Index
 
-_Add deployment, configuration, and operator runbooks here._
+| Doc | Purpose |
+|-----|---------|
+| [github-pages.md](github-pages.md) | Deploy and configure the static client |

@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Convention Time Capsule — lessons from the 30th AFL-CIO Convention">
+  <title>Submit — Convention Time Capsule</title>
+  <link rel="stylesheet" href="css/main.css">
+</head>
+<body data-page="submit">
+  <a class="skip-link" href="#main">Skip to main content</a>
+  <header class="site-header">
+    <div class="site-header__inner">
+      <h1>Convention Time Capsule</h1>
+      <p>30th AFL-CIO Convention — lessons and reflections</p>
+      <nav class="site-nav" aria-label="Primary">
+        <a href="index.html" aria-current="page">Submit</a>
+        <a href="classify.html">Classify</a>
+      </nav>
+    </div>
+  </header>
+  <main id="main">
+    <h2 class="section-title">Share a lesson learned</h2>
+    <div id="status" class="status-banner status-banner--info" hidden></div>
+    <p id="user-info"></p>
+    <div class="card">
+      <button type="button" class="btn btn-secondary" id="sign-in">Sign in with Google</button>
+    </div>
+    <div class="layout-two-col">
+      <form id="submit-form" class="card" aria-label="Submission form">
+        <label for="domain">Knowledge domain</label>
+        <select id="domain" name="domain" required disabled></select>
+        <label for="title">Title (optional)</label>
+        <input type="text" id="title" name="title" disabled>
+        <label for="body">What worked, what didn't, or what to remember</label>
+        <textarea id="body" name="body" required disabled></textarea>
+        <label for="email">Your email (for follow-up)</label>
+        <input type="email" id="email" name="email" required disabled>
+        <label for="attachment">Attachment (MVP)</label>
+        <input type="file" id="attachment" name="attachment" disabled>
+        <button type="submit" class="btn btn-primary" disabled>Submit</button>
+      </form>
+      <aside class="card card--muted" aria-label="Prior submissions">
+        <h3>Prior submissions in this domain</h3>
+        <ul id="prior-list" class="prior-list"></ul>
+      </aside>
+    </div>
+  </main>
+  <footer class="site-footer"><p>Convention Time Capsule · schema v1 · 30th Convention</p></footer>
+  <script src="js/app.js" defer></script>
+</body>
+</html>
