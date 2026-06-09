@@ -13,6 +13,18 @@ Lessons and Reflections from the 30th AFL-CIO Convention
 | User docs | [docs/user/](docs/user/) |
 | Admin docs | [docs/admin/](docs/admin/) |
 | Agent skills | [docs/developer/skills/](docs/developer/skills/) |
+| Stakeholder comms | [missives/](missives/) |
+| Maintainer toolkit | [docs/developer/approach/google-workspace-cli.md](docs/developer/approach/google-workspace-cli.md) |
+| Web app (GitHub Pages) | [site/](site/) |
+
+## Local preview
+
+```bash
+./scripts/sync-site-config.sh   # requires config/google.json
+cd site && python3 -m http.server 8080
+```
+
+Open http://localhost:8080
 
 ## Agent contract
 
