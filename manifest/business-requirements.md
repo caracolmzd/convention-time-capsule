@@ -1,4 +1,4 @@
-# Business requirements — {{PROJECT_NAME}}
+# Business requirements — Convention Time Capsule
 
 <!-- Replace with your project's business requirements (BR-###). -->
 
