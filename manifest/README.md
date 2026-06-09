@@ -1,23 +1,28 @@
 # Manifest
 
-Business requirements and project-management artifacts for mka-bootstrap (maintainer context on `main`).
+Business requirements and project-management artifacts for Convention Time Capsule.
 
 ## BR ↔ milestone matrix
 
 | BR | Milestone | Description | Done when |
 |----|-----------|-------------|-----------|
-| BR-001 | M-001 | Documentation taxonomy enforced | `validate-governance-structure.sh --context main` passes |
-| BR-002 | M-002 | Milestone workflow + agent skills routable | `sync-skill-stubs.sh --check` passes |
-| BR-003 | M-003 | Install/bootstrap scripts produce valid solution repo | `./scripts/test/run-local-harness.sh bootstrap` passes |
-| BR-004 | M-004 | `install` default branch publishable from `main` | `./scripts/test/run-local-harness.sh publish` passes |
-| BR-005 | M-005 | Consumer clone + install.sh path verified end-to-end | GitHub install + mka-solution-testing documented |
+| — | M-001 | Manifest foundation | BR-001..BR-008, personas, glossary, Deep Backlog in place |
+| BR-008 | M-002 | Architecture and style guide | `time-capsule.md` and `visual-style.md` published |
+| BR-001, BR-007 | M-003 | Google Workspace bootstrap | Cloud project, Sheet, Drive folder, OAuth client configured |
+| BR-008 | M-004 | Static client scaffold | GitHub Pages shell deploys with AFL-CIO visual tokens |
+| BR-001, BR-008 | M-005 | WASM data layer + Sheets connectivity | WASM reads/writes fixture or live Sheet |
+| BR-001, BR-002 | M-006 | MVP submission flow | Authenticated submit with prior-entry surfacing |
+| BR-003, BR-005 | M-007 | Team-lead classification UI | Post-submit enrich and classify |
+| BR-004 | M-008 | Document upload | Attachment linked from submission |
+| BR-006 | M-009 | HTML time-capsule generator | Offline-readable export with schema stamp |
+| BR-007 | M-010 | Repo inspection tooling | Maintainer inspects cloud data from repo |
 
 ## Contents
 
 | File | Purpose |
 |------|---------|
 | [business-requirements.md](business-requirements.md) | BR-### acceptance criteria |
-| [personas.md](personas.md) | Maintainer and consumer personas |
+| [personas.md](personas.md) | Submitter, team lead, future reader, maintainer |
 | [roadmap-processes.md](roadmap-processes.md) | Sprint cadence and release workflow |
 | [glossary.md](glossary.md) | Shared terms |
-| [Deep-Backlog.md](Deep-Backlog.md) | Epics and future themes (not ROADMAP `##` slots) |
+| [Deep-Backlog.md](Deep-Backlog.md) | Epics E-001..E-008 (not ROADMAP `##` slots) |
